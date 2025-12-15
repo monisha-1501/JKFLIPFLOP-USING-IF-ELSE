@@ -67,30 +67,28 @@ Developed by:Monisha D
 RegisterNumber:25007487
 */
 ```
-'''
 module jk_flipflop (
-    input  J,
-    input  K,
-    input  clk,
-    input  reset,
+    input J,
+    input K,
+    input clk,
+    input reset,
     output reg Q
 );
 
-always @(posedge clk or posedge reset)
-begin
+always @(posedge clk or posedge reset) begin
     if (reset)
-        Q <= 1'b0;          // Reset
+        Q <= 1'b0;                 // Reset
+    else if (J == 1'b0 && K == 1'b0)
+        Q <= Q;                    // No change
+    else if (J == 1'b0 && K == 1'b1)
+        Q <= 1'b0;                 // Reset
+    else if (J == 1'b1 && K == 1'b0)
+        Q <= 1'b1;                 // Set
     else
-        case ({J, K})
-            2'b00: Q <= Q;  // No change
-            2'b01: Q <= 1'b0; // Reset
-            2'b10: Q <= 1'b1; // Set
-            2'b11: Q <= ~Q; // Toggle
-        endcase
+        Q <= ~Q;                   // Toggle (J=1, K=1)
 end
 
 endmodule
-'''
 ```
 
 **RTL LOGIC FOR FLIPFLOPS**
