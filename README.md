@@ -34,15 +34,75 @@ The maximum possible groupings of adjacent ones are already shown in the figure.
 
 **Procedure**
 
-/* write all the steps invloved */
+```
+1. Apply the clock signal
+The JK flip-flop changes its output only at the active clock edge (usually positive edge).
+
+
+2. Check reset (if present)
+If reset = 1, the output Q becomes 0, regardless of J and K.
+
+
+3. Observe inputs J and K
+Based on their values, the output updates as follows:
+
+J = 0, K = 0 → Output remains the same (No change)
+
+J = 0, K = 1 → Output resets to 0
+
+J = 1, K = 0 → Output sets to 1
+
+J = 1, K = 1 → Output toggles (Q becomes Q̅)
+
+
+
+4. Store the output
+The new output Q is stored until the next clock edge.
+```
 
 **PROGRAM**
 
-/* Program for flipflops and verify its truth table in quartus using Verilog programming. Developed by: RegisterNumber:
+/*
+Developed by:Monisha D 
+RegisterNumber:25007487
 */
+```
+'''
+module jk_flipflop (
+    input  J,
+    input  K,
+    input  clk,
+    input  reset,
+    output reg Q
+);
+
+always @(posedge clk or posedge reset)
+begin
+    if (reset)
+        Q <= 1'b0;          // Reset
+    else
+        case ({J, K})
+            2'b00: Q <= Q;  // No change
+            2'b01: Q <= 1'b0; // Reset
+            2'b10: Q <= 1'b1; // Set
+            2'b11: Q <= ~Q; // Toggle
+        endcase
+end
+
+endmodule
+'''
+```
 
 **RTL LOGIC FOR FLIPFLOPS**
 
+![RTL realization for JK flipflop](https://github.com/user-attachments/assets/51d7c07f-d66f-4b48-b484-4f20115bf882)
+
+
 **TIMING DIGRAMS FOR FLIP FLOPS**
 
+![Waveform for jk flipflop](https://github.com/user-attachments/assets/a8cd3950-9537-4f19-8146-7f4a6885c88c)
+
+
 **RESULTS**
+
+Thus the JK flipflop is implemented and verified.
